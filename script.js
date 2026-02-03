@@ -1,6 +1,12 @@
-class Dog {
-  constructor(name, imagePath) {
+class Animal {
+  constructor(name) {
     this.name = name;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, imagePath) {
+    super(name); 
     this.imagePath = imagePath;
   }
 
@@ -17,6 +23,8 @@ class DogDeck {
       new Dog("Golden Retriever", "images/GoldenRetrieber.jpg"),
       new Dog("Samoyed", "images/Samoyed.jpeg")
     ];
+
+    this.lastIndex = -1;
   }
 
   // pick a random dog from the deck
@@ -30,14 +38,13 @@ class DogDeck {
 }
 
 class DogPick {
-  constructor(deck, resultEl) {
+  constructor(deck, resultDog) {
     this.deck = deck;
-    this.resultEl = resultEl;
+    this.resultDog = resultDog;
   }
 
   showDog(dog) {
-  this.resultEl.innerHTML = "";
-
+  this.resultDog.innerHTML = "";
   let title = document.createElement("h2");
   title.textContent = dog.name;
 
@@ -45,8 +52,8 @@ class DogPick {
   img.src = dog.getImageUrl();
   img.alt = dog.name;
 
-  this.resultEl.appendChild(title);
-  this.resultEl.appendChild(img);
+  this.resultDog.appendChild(title);
+  this.resultDog.appendChild(img);
 }
   
   handleClick(event) {
@@ -60,12 +67,15 @@ class DogPick {
 console.log("script loaded");
 
 const result = document.getElementById("result");
-const button = document.getElementById("pickBtn");
+const button = document.querySelector("#pickBtn");
+const hints = document.getElementsByClassName("hint");
 
 const deck = new DogDeck();
 const app = new DogPick(deck, result);
 
-button.addEventListener("click", (event) => {
+function clickForPick(event){
   console.log("clicked");
   app.handleClick(event);
-});
+}
+
+button.addEventListener("click", clickForPick);
