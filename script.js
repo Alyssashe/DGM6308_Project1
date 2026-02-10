@@ -1,12 +1,17 @@
 class Animal {
-  constructor(name) {
+  constructor(name, type) {
     this.name = name;
+    this.type = type;
+  }
+
+  getInfo() {
+    return this.name + " is a " + this.type;
   }
 }
 
 class Dog extends Animal {
   constructor(name, imagePath) {
-    super(name); 
+    super(name, "dog"); 
     this.imagePath = imagePath;
   }
 
@@ -57,10 +62,18 @@ class DogPick {
 }
   
   handleClick(event) {
-    event.target.textContent = "Picking...";
+   event.target.textContent = "Picking...";
 
+  if (hints.length > 0) {
+    hints[0].textContent = "Waiting...";
+  }
+
+  setTimeout(() => {
     const dog = this.deck.draw();
     this.showDog(dog);
+
+    event.target.textContent = "Pick a Dog";
+  }, 500);
   }
 }
 
